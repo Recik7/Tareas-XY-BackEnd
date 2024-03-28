@@ -31,7 +31,7 @@ class AuthController extends Controller
         ]);
         return response()->json([
             'status' => true,
-            'message' => 'Login realizado con exito',
+            'message' => 'Registro realizado con exito',
             'token' => $user->createToken('API TOKEN')->plainTextToken
 
         ], 200);

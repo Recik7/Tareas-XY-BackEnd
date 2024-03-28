@@ -25,7 +25,7 @@ class UserController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
-            'role' => 'required|string|in:Super Admin,employee', // Asegúrate de validar el rol según los valores permitidos
+            'role' => 'required|string|in:Super Admin,employee', 
         ]);
 
         
@@ -44,8 +44,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'sometimes|string|min:6', // El campo password solo es requerido si se proporciona
-            'role' => 'required|string|in:Super Admin,employee', // Asegúrate de validar el rol según los valores permitidos
+            'password' => 'sometimes|string|min:6', 
+            'role' => 'required|string|in:Super Admin,employee', 
         ]);
 
         $user->update($request->all());

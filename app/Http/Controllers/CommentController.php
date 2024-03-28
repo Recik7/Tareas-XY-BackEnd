@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
@@ -16,16 +17,32 @@ class CommentController extends Controller
 
     public function store(Request $request)
     {
-        // Validar datos del formulario $request->validate([...]);
+        $rules = [
+            'user_id' => 'required|exists:users,id',
+            'task_id' => 'required|exists:tasks,id',
+            'comment' => 'required|string|max:255',
+        ];
+
+        $validator = \Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => false,
+                'errors' => $validator->errors()->all()
+            ], 400);
+        }
 
         $comment = Comment::create($request->all());
 
-        return response()->json($comment, 201);
+        return response()->json([
+            'status' => true,
+            'message' => 'Comentario creado exitosamente',
+            'comment' => $comment
+        ], 201);
     }
 
     public function update(Request $request, Comment $comment)
     {
-        // Validar datos del formulario $request->validate([...]);
 
         $comment->update($request->all());
 
